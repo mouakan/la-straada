@@ -1,0 +1,161 @@
+{
+  "_comment": "=== LA STRAADA — FICHIER DE CONFIGURATION ===",
+  "_instruction": "Modifiez UNIQUEMENT ce fichier. Ne pas toucher aux autres fichiers.",
+
+  "restaurant": {
+    "nom": "La Straada",
+    "nomComplet": "La Straada Clichy",
+    "tagline": "Fusion franco-italienne",
+    "sousTagline": "Panuozzo · Escalopes · Pasta",
+    "description": "Au cœur de Clichy, la Straada réinvente la fusion franco-italienne. Des panuozzo généreux, des escalopes fondantes, des pâtes signature maison — une cuisine sincère, gourmande et conviviale.",
+    "telephone": "+33 9 56 57 79 19",
+    "_telephone_note": "⚠️ À compléter avec le vrai numéro du restaurant",
+    "whatsapp": "33XXXXXXXXX",
+    "_whatsapp_note": "Numéro sans + ni espaces. Ex: 33612345678",
+    "whatsappMessage": "Bonjour, je vous contacte depuis votre site. Je souhaite obtenir des informations.",
+    "email": "",
+    "logo": "Logo et favicon.jpg",
+    "adresse": {
+      "rue": "83 rue de Paris",
+      "ville": "Clichy",
+      "codePostal": "92110",
+      "pays": "France"
+    },
+    "maps": {
+      "lienExterne": "https://maps.google.com/?q=83+rue+de+Paris+92110+Clichy",
+      "iframe": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.4!2d2.3015!3d48.9034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66f5c3b2e5555%3A0x0!2s83+Rue+de+Paris%2C+92110+Clichy!5e0!3m2!1sfr!2sfr!4v1620000000000!5m2!1sfr!2sfr\" width=\"100%\" height=\"220\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"></iframe>"
+    },
+    "reseauxSociaux": {
+      "instagram": "https://www.instagram.com/lastraada.restaurant/"
+    },
+    "livraison": {
+      "deliveroo": "https://deliveroo.fr/fr/menu/paris/clichy/la-straada-83-rue-de-paris",
+      "ubereats": "https://www.ubereats.com/fr/store/la-straada/lJJ-7tp6ROquxBr87HY3cA"
+    }
+  },
+
+  "hero": {
+    "_comment": "type = 'video' ou 'image'",
+    "type": "video",
+    "video": "Hero.mp4",
+    "videoPoster": "Galerie7.jpg",
+    "image": "Galerie7.jpg"
+  },
+
+  "horaires": [
+    { "jour": "Lundi",    "ouverture": "12h00", "fermeture": "15h00", "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": false },
+    { "jour": "Mardi",    "ouverture": "12h00", "fermeture": "15h00", "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": false },
+    { "jour": "Mercredi", "ouverture": "12h00", "fermeture": "15h00", "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": false },
+    { "jour": "Jeudi",    "ouverture": "12h00", "fermeture": "15h00", "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": false },
+    { "jour": "Vendredi", "ouverture": "",      "fermeture": "",      "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": true  },
+    { "jour": "Samedi",   "ouverture": "12h00", "fermeture": "15h00", "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": false },
+    { "jour": "Dimanche", "ouverture": "12h00", "fermeture": "15h00", "soir": "18h00", "fermetureSoir": "00h00", "ferme": false, "soirUniquement": false }
+  ],
+
+  "menu": {
+    "categories": [
+      {
+        "nom": "Salades",
+        "emoji": "🥗",
+        "plats": [
+          { "nom": "Burrata al Tartufo",  "description": "Roquette fraîche, burrata à la truffe, tomates cerises, copeaux de parmesan, pignon de pin, vinaigrette balsamique, huile d'olive.", "prix": "12.50", "tag": "Signature", "image": "" },
+          { "nom": "Salade César",        "description": "Escalope panée croustillante, tomates cerises, croûtons, copeaux de parmesan, sauce césar maison.", "prix": "10.50", "tag": "", "image": "" },
+          { "nom": "Salade Alfredo",      "description": "Escalope grillée marinée au pesto, tomates cerises, aubergine rôties, balsamique.", "prix": "10.50", "tag": "", "image": "" },
+          { "nom": "Salade Salmone",      "description": "Saumon fumé, tomates cerises, feta, vinaigrette, huile d'olive, citron, pesto verde.", "prix": "11.50", "tag": "", "image": "" },
+          { "nom": "Salade Fromaqi",      "description": "Burrata, tomates cerises, feta, copeaux de parmesan, vinaigrette, huile d'olive, miel.", "prix": "11.50", "tag": "", "image": "" }
+        ]
+      },
+      {
+        "nom": "Pasta Signature",
+        "emoji": "🍝",
+        "plats": [
+          { "nom": "Pâtes au Saumon",     "description": "Linguine, saumon, crème légère et parmesan.", "prix": "13.90", "tag": "", "image": "" },
+          { "nom": "Pâtes aux Crevettes", "description": "Linguine, crevettes sautées, sauce tomate parfumée aux herbes, crème légère, pesto et huile d'olive.", "prix": "13.90", "tag": "", "image": "" },
+          { "nom": "Pâtes au Poulet",     "description": "Linguine, poulet, crème onctueuse, champignon, touche de pesto et parmesan.", "prix": "13.90", "tag": "", "image": "" },
+          { "nom": "Pâtes Carbonara",     "description": "Linguine, crème onctueuse, lardon fumée, jaune d'œuf et parmesan.", "prix": "13.90", "tag": "Signature", "image": "" }
+        ]
+      },
+      {
+        "nom": "Panuozzo",
+        "emoji": "🥙",
+        "plats": [
+          { "nom": "Panceta",               "description": "Huile d'olive, roquette, tomates cerises confites, stracciatella, pesto, panceta.", "prix": "13.90", "tag": "Incontournable", "image": "" },
+          { "nom": "Saucisson Black Angus",  "description": "Huile d'olive, roquette, poivrons grillées, tomates cerises confites, stracciatella et saucisson de black angus.", "prix": "14.90", "tag": "Incontournable", "image": "" },
+          { "nom": "Truffe Royal",           "description": "Huile d'olive, roquette, champignons sautés, tomates cerises confites, stracciatella à la truffe, jambon de veau.", "prix": "15.90", "tag": "Premium", "image": "" },
+          { "nom": "Escalope Grillée",       "description": "Huile d'olive, salade verte, sauce cesar, escalope grillée marinée au pesto, poivrons grillés, stracciatella et copeaux de parmesan.", "prix": "12.50", "tag": "", "image": "" },
+          { "nom": "Escalope Panée",         "description": "Huile d'olive, salade verte, sauce cesar, escalope panée croustillante oignons caramélisés, stracciatella.", "prix": "12.50", "tag": "", "image": "" },
+          { "nom": "Panuozzo Vege",          "description": "Huile d'olive, roquette, aubergine rôtis, poivrons grillés, tomates confites, stracciatella, pesto, tranche de mozzarella.", "prix": "12.50", "tag": "Végé", "image": "" },
+          { "nom": "Chèvre Miel",            "description": "Huile d'olive, salade, escalope, jambon, mozzarella, fromage de chèvre, oignon caramélisé, filet de miel doré. Gratiné.", "prix": "15.90", "tag": "Gratiné", "image": "" },
+          { "nom": "Cheddar",                "description": "Huile d'olive, salade, escalope, jambon, mozzarella, cheddar, oignon caramélisé. Gratiné.", "prix": "15.90", "tag": "Gratiné", "image": "" }
+        ]
+      },
+      {
+        "nom": "Escalopes",
+        "emoji": "🍽️",
+        "plats": [
+          { "nom": "Escalope Forestière",   "description": "Champignons, huile d'olive, ail, parmesan, crème. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Boursin",      "description": "Crème onctueuse au boursin, ail et fines herbes. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Poivre",       "description": "Crème relevée au poivre, saveur de bistrot français. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Gorgonzola",   "description": "Crème, fromage gorgonzola doux, poivre noir. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Pesto Verde",  "description": "Pesto maison au basilic, parmesan, pignons de pin, ail et huile d'olive. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Pesto Rosso",  "description": "Pesto maison aux tomates séchées, parmesan, pignons de pin et huile d'olive. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Napolitaine",  "description": "Sauce tomate maison, ail, basilic frais, huile d'olive extra vierge. Servie avec pâtes au choix.", "prix": "16.50", "tag": "En sauce", "image": "" },
+          { "nom": "Escalope Truffe",       "description": "Crème onctueuse à la truffe, parmesan, huile à la truffe. Servie avec pâtes au choix.", "prix": "18.50", "tag": "Premium", "image": "" },
+          { "nom": "Escalope Parisienne",   "description": "Jambon, mozzarella fondante, touche de crème légère. Gratinée au four, servie avec pâtes au choix.", "prix": "17.90", "tag": "Gratinée", "image": "" },
+          { "nom": "Escalope Chèvre & Miel","description": "Jambon, fromage de chèvre fondant, filet de miel doré. Gratinée au four, servie avec pâtes au choix.", "prix": "17.90", "tag": "Gratinée", "image": "" },
+          { "nom": "Escalope Provençale",   "description": "Sauce tomate maison, herbes aromatiques, mozzarella, aubergine rôti, parmesan. Gratinée.", "prix": "17.90", "tag": "Gratinée", "image": "" },
+          { "nom": "Escalope Milanaise",    "description": "Escalope panée, sauce tomate, parmesan, jambon, mozzarella. Gratinée.", "prix": "17.90", "tag": "Gratinée", "image": "" }
+        ]
+      },
+      {
+        "nom": "Desserts",
+        "emoji": "🍮",
+        "plats": [
+          { "nom": "Tiramisu Maison",  "description": "Classique, Pistache, Chocolat Blanc Framboise ou Tiramisu du Jour.", "prix": "5.50", "tag": "Fait maison", "image": "" },
+          { "nom": "Crème Brûlée",     "description": "Vanille, Pistache ou Noisette.", "prix": "4.90", "tag": "Fait maison", "image": "" }
+        ]
+      },
+      {
+        "nom": "Boissons",
+        "emoji": "🥤",
+        "plats": [
+          { "nom": "Boissons",  "description": "San Pellegrino, San Pellegrino Limonata, San Pellegrino Orange Grenadine, Coca-Cola, Coca-Cola Zéro, Ice Tea, Oasis Tropical, Fanta Orange, Vittel, Vittel Fraise/Framboise.", "prix": "2.00", "tag": "", "image": "" },
+          { "nom": "Le Café",   "description": "Expresso maison.", "prix": "1.50", "tag": "", "image": "" }
+        ]
+      }
+    ]
+  },
+
+  "galerie": {
+    "photos": [
+      "Galerie1.jpg",
+      "Galerie2.jpg",
+      "Galerie3.jpg",
+      "Galerie4",
+      "Galerie5",
+      "Galerie6",
+      "Galerie7",
+      "Galerie8"
+    ]
+  },
+
+  "avis": {
+    "titre": "Ce que disent nos clients",
+    "clients": [
+      { "nom": "Camille D.",  "note": 5, "commentaire": "Le Panuozzo Truffe Royal est une tuerie absolue. La stracciatella à la truffe, c'est un niveau au-dessus. Je reviens chaque semaine !", "photo": "", "date": "Avril 2025" },
+      { "nom": "Mehdi R.",    "note": 5, "commentaire": "Meilleur rapport qualité-prix de Clichy. L'escalope Gorgonzola avec les pâtes c'est une merveille. Service rapide et personnel adorable.", "photo": "", "date": "Mars 2025" },
+      { "nom": "Sophie L.",   "note": 5, "commentaire": "Adresse découverte par hasard et on ne la lâche plus. Le tiramisu maison est sublime. Cadre moderne et ambiance sympa.", "photo": "", "date": "Février 2025" },
+      { "nom": "Antoine M.",  "note": 4, "commentaire": "Très bonne cuisine franco-italienne originale. Les panuozzo sont généreux et savoureux. Un peu d'attente le midi mais ça vaut le coup.", "photo": "", "date": "Janvier 2025" },
+      { "nom": "Laura B.",    "note": 5, "commentaire": "La burrata al tartufo en entrée et l'escalope pesto verde… Un régal du début à la fin. Le concept fusion est vraiment bien exécuté.", "photo": "", "date": "Mars 2025" },
+      { "nom": "Kevin T.",    "note": 5, "commentaire": "Endroit top pour manger à Clichy. Les pâtes carbonara sont délicieuses et les portions généreuses. On recommande fortement !", "photo": "", "date": "Avril 2025" }
+    ]
+  },
+
+  "seo": {
+    "titre": "la Straada Clichy — Fusion Franco-Italienne | Panuozzo · Escalopes · Pasta",
+    "description": "Restaurant fusion franco-italien à Clichy (92). Panuozzo, escalopes en sauce, pasta signature. Ouvert 7j/7 — 83 rue de Paris, 92110 Clichy.",
+    "couleurPrimaire": "#1a3d2e",
+    "couleurAccent": "#e8d5a3",
+    "couleurAccentVif": "#f5a623"
+  }
+}
