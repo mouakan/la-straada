@@ -37,12 +37,6 @@ a{color:inherit;text-decoration:none}
 ul{list-style:none}
 address{font-style:normal}
 
-/* Lock scroll for iOS menu */
-body.menu-open {
-    overflow: hidden !important;
-    /* On retire position: fixed pour corriger le bug des liens */
-    height: 100vh; 
-}
 
 .sr-only{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;
@@ -728,4 +722,18 @@ body.menu-open .instagram-float, body.menu-open .tiktok-float {
 
 @media(max-width:480px){
   .hero__actions{flex-direction:column;align-items:center}
+}
+
+/* ============================================================
+   CORRECTION ULTIME NAVIGATION MOBILE
+   ============================================================ */
+
+/* 1. Empêche le titre de la section d'être caché par la navbar */
+.hero, .intro, .menu-section, .galerie, .avis, .infos, .contact {
+  scroll-margin-top: var(--nav-h); 
+}
+
+/* 2. Blocage simple du scroll pour mobile (Sans position:fixed) */
+body.menu-open {
+  overflow: hidden !important;
 }

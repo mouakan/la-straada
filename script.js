@@ -64,7 +64,6 @@ function nav(d) {
     burger.classList.add('open');
     burger.setAttribute('aria-expanded', 'true');
     document.body.classList.add('menu-open'); 
-    document.body.style.overflow = 'hidden';
   }
 
   function fermerMenu() {
@@ -73,7 +72,6 @@ function nav(d) {
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
-    document.body.style.overflow = '';
     document.body.style.paddingRight = '';
   }
 
@@ -87,32 +85,27 @@ function nav(d) {
       if (e.key === 'Escape' && links.classList.contains('open')) fermerMenu();
     });
 
-    // --- CORRECTION ICI : Gestion fluide des clics sur les liens ---
+    // --- CORRECTION ULTIME : Navigation Native ───
     links.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', (e) => {
         const targetId = a.getAttribute('href');
         
-        // On ne gère que les liens internes (commençant par #)
         if (targetId && targetId.startsWith('#')) {
-          e.preventDefault(); // On empêche le saut brutal
+          e.preventDefault(); // On stoppe le saut brutal
           
-          fermerMenu(); // On ferme le menu d'abord
+          // 1. On ferme le menu immédiatement
+          fermerMenu(); 
           
-          // On attend que le menu disparaisse pour lancer le scroll
-          setTimeout(() => {
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-              // Calcul de la position avec décalage pour la navbar
-              const offset = document.getElementById('navbar').offsetHeight;
-              const elementPosition = targetElement.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              });
-            }
-          }, 10); 
+          // 2. On cible l'élément
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            // 3. On utilise la fonction native la plus stable pour mobile
+            targetElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            });
+          }
         }
       });
     });
