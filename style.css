@@ -128,31 +128,37 @@ address{font-style:normal}
 /* ── Burger button ── */
 .nav__burger{
   display:none;flex-direction:column;justify-content:center;align-items:center;
-  gap:6px;background:none;border:none;cursor:pointer;
+  gap:5px;background:none;border:none;cursor:pointer;
   padding:10px;margin-left:1rem;
-  width:44px;height:44px;border-radius:8px;
+  width:44px;height:44px;border-radius:10px;
   transition:background var(--t);
   min-width:44px;min-height:44px;
   position:relative;z-index:1100;
 }
 .nav__burger:hover{background:rgba(232,213,163,.08)}
 .nav__burger span{
-  display:block;width:22px;height:2px;background:var(--creme);
-  border-radius:2px;transition:transform var(--t),opacity var(--t),width var(--t);
+  display:block;height:1.5px;background:var(--creme);
+  border-radius:2px;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),
+             opacity .2s ease,
+             width .3s ease;
   transform-origin:center;
 }
-.nav__burger.open span:first-child{transform:translateY(4px) rotate(45deg)}
-.nav__burger.open span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.nav__burger span:first-child{width:22px}
+.nav__burger span:last-child{width:14px}
+/* État ouvert → croix parfaite */
+.nav__burger.open span:first-child{width:20px;transform:translateY(3.3px) rotate(45deg)}
+.nav__burger.open span:last-child{width:20px;transform:translateY(-3.3px) rotate(-45deg)}
 
 /* ── Overlay fond mobile ── */
 .nav__overlay{
   display:none;position:fixed;inset:0;z-index:1050;
-  background:rgba(0,0,0,.5);opacity:0;
-  transition:opacity var(--t);
+  background:rgba(0,0,0,.6);opacity:0;
+  transition:opacity .35s ease;
   cursor:pointer;
-  pointer-events: none;
+  pointer-events:none;
 }
-.nav__overlay.open{opacity:1; pointer-events: auto;}
+.nav__overlay.open{opacity:1;pointer-events:auto;}
 
 /* ── Menu mobile ── */
 @media(max-width:768px){
@@ -161,53 +167,76 @@ address{font-style:normal}
 
   .nav__links{
     position:fixed;
-    top:var(--nav-h);
+    top:0;
     left:0;right:0;
     bottom:0;
-    max-height:calc(100dvh - var(--nav-h));
+    height:100dvh;
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
 
-    background:rgba(22,52,38,.99);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
+    background:rgba(14,36,26,.98);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 
     flex-direction:column;
     align-items:center;
     justify-content:center;
     gap:0;
-    padding:2rem 1.5rem;
-    padding-bottom:calc(2rem + env(safe-area-inset-bottom));
+    padding:calc(var(--nav-h) + 2rem) 2rem 3rem;
+    padding-bottom:calc(3rem + env(safe-area-inset-bottom));
 
+    /* Slide depuis la droite */
     transform:translateX(100%);
     opacity:0;
     pointer-events:none;
-    transition:transform .35s var(--ease),opacity .35s var(--ease);
+    transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
     z-index:1080;
-    will-change: transform, opacity;
+    will-change:transform;
   }
   .nav__links.open{
     transform:translateX(0);
     opacity:1;
     pointer-events:all;
   }
+
+  /* Liens — apparition en cascade */
   .nav__links li{
     width:100%;text-align:center;
-    border-bottom:1px solid rgba(232,213,163,.06);
+    border-bottom:1px solid rgba(232,213,163,.07);
+    opacity:0;
+    transform:translateX(20px);
+    transition:opacity .3s ease, transform .3s ease;
   }
-  .nav__links li:last-child{border-bottom:none;margin-top:.75rem}
+  .nav__links.open li:nth-child(1){opacity:1;transform:none;transition-delay:.08s}
+  .nav__links.open li:nth-child(2){opacity:1;transform:none;transition-delay:.13s}
+  .nav__links.open li:nth-child(3){opacity:1;transform:none;transition-delay:.18s}
+  .nav__links.open li:nth-child(4){opacity:1;transform:none;transition-delay:.23s}
+  .nav__links.open li:nth-child(5){opacity:1;transform:none;transition-delay:.28s}
+
+  .nav__links li:last-child{border-bottom:none;margin-top:1.5rem}
   .nav__link{
-    display:block;padding:1.2rem 0;
-    font-size:1.1rem;letter-spacing:.08em;
-    color:rgba(232,213,163,.75);
+    display:block;padding:1.25rem 0;
+    font-size:1.25rem;letter-spacing:.06em;font-weight:400;
+    color:rgba(232,213,163,.6);
+    transition:color .2s ease, letter-spacing .2s ease;
   }
-  .nav__link:hover{color:var(--creme)}
+  .nav__link:hover, .nav__link:active{
+    color:var(--creme);
+    letter-spacing:.1em;
+  }
   .nav__link::after{display:none}
   .nav__link--cta{
-    display:inline-flex;padding:.75rem 2rem;
+    display:inline-flex;padding:.85rem 2.5rem;
     background:var(--or);color:var(--verde)!important;
     border-radius:50px;margin-top:.25rem;
-    font-size:.85rem;
+    font-size:.9rem;font-weight:600;
+    letter-spacing:.08em;
+    box-shadow:0 4px 24px rgba(245,166,35,.25);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .nav__link--cta:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 32px rgba(245,166,35,.35);
   }
 }
 
@@ -733,7 +762,6 @@ body.menu-open .instagram-float, body.menu-open .tiktok-float {
   scroll-margin-top: var(--nav-h); 
 }
 
-/* 2. Blocage simple du scroll pour mobile (Sans position:fixed) */
-body.menu-open {
-  overflow: hidden !important;
-}
+/* 2. Scroll du body jamais bloqué — le menu est un panneau fixe par-dessus,
+      pas besoin de bloquer overflow (ça cassait les calculs de position des ancres) */
+/* body.menu-open { overflow: hidden; } ← supprimé intentionnellement */

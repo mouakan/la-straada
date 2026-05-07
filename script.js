@@ -57,8 +57,6 @@ function nav(d) {
   const overlay = document.getElementById('nav-overlay');
 
   function ouvrirMenu() {
-    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.paddingRight = `${scrollBarWidth}px`;
     links.classList.add('open');
     overlay.classList.add('open');
     burger.classList.add('open');
@@ -72,7 +70,6 @@ function nav(d) {
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
-    document.body.style.paddingRight = '';
   }
 
   if (burger && links) {
@@ -85,27 +82,36 @@ function nav(d) {
       if (e.key === 'Escape' && links.classList.contains('open')) fermerMenu();
     });
 
-    // --- CORRECTION ULTIME : Navigation Native ───
+    // --- NAVIGATION MOBILE — FIX COMPLET ───────────────────
     links.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', (e) => {
         const targetId = a.getAttribute('href');
         
         if (targetId && targetId.startsWith('#')) {
-          e.preventDefault(); // On stoppe le saut brutal
+          e.preventDefault();
           
-          // 1. On ferme le menu immédiatement
-          fermerMenu(); 
+          const wasOpen = links.classList.contains('open');
           
-          // 2. On cible l'élément
-          const targetElement = document.querySelector(targetId);
+          // 1. Fermer le menu immédiatement
+          fermerMenu();
           
-          if (targetElement) {
-            // 3. On utilise la fonction native la plus stable pour mobile
-            targetElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'start' 
-            });
-          }
+          // 2. Attendre la fin de la transition CSS du menu (.35s = 350ms)
+          //    AVANT de scroller — évite le conflit animation/scroll
+          const delay = wasOpen ? 360 : 0;
+          
+          setTimeout(() => {
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+            
+            // 3. Calcul précis : position réelle de l'élément - hauteur navbar fixe
+            const navbar = document.getElementById('navbar');
+            const navH = navbar ? navbar.getBoundingClientRect().height : 72;
+            
+            const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const scrollTo = Math.max(0, elementTop - navH);
+            
+            window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+          }, delay);
         }
       });
     });
