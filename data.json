@@ -132,11 +132,11 @@
       "Galerie1.jpg",
       "Galerie2.jpg",
       "Galerie3.jpg",
-      "Galerie4",
-      "Galerie5",
-      "Galerie6",
-      "Galerie7",
-      "Galerie8"
+      "Galerie4.jpg",
+      "Galerie5.jpg",
+      "Galerie6.jpg",
+      "Galerie7.jpg",
+      "Galerie8.jpg"
     ]
   },
 
@@ -160,4 +160,3 @@
     "couleurAccentVif": "#f5a623"
   }
 }
-
