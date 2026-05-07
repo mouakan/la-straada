@@ -79,6 +79,9 @@ address{font-style:normal}
 .btn--instagram{background:var(--ig);color:var(--white);border-color:var(--ig);font-size:.88rem;padding:1rem 2rem}
 .btn--instagram:hover{background:var(--ig-d);border-color:var(--ig-d);transform:translateY(-2px);box-shadow:0 8px 28px rgba(225,48,108,.3)}
 
+.btn--tiktok{background:#000000;color:var(--white);border-color:#000000;font-size:.88rem;padding:1rem 2rem}
+.btn--tiktok:hover{background:#1a1a1a;border-color:#1a1a1a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+
 /* ============================================================
    NAVBAR
    ============================================================ */
@@ -147,9 +150,9 @@ address{font-style:normal}
   position:absolute;inset:0;
   background:linear-gradient(
     160deg,
-    rgba(26,61,46,.7) 0%,
-    rgba(13,30,23,.8) 50%,
-    rgba(10,24,18,.92) 100%
+    rgba(26,61,46,.2) 0%,
+    rgba(13,30,23,.25) 50%,
+    rgba(10,24,18,.3) 100%
   );
 }
 /* Grain texture overlay */
@@ -160,6 +163,7 @@ address{font-style:normal}
 }
 .hero__content{
   position:relative;z-index:2;text-align:center;padding-inline:1.5rem;max-width:800px;
+  padding-top:clamp(2rem,5vh,4rem);
   animation:heroIn 1.2s var(--ease) both;
 }
 @keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
@@ -176,9 +180,14 @@ address{font-style:normal}
   line-height:1;color:var(--creme);margin-bottom:.75rem;
   animation:heroIn 1.2s .2s var(--ease) both;
 }
+.hero__logo{
+  max-width:clamp(250px,70vw,400px);width:100%;height:auto;margin-bottom:clamp(.5rem,2vh,1rem);
+  animation:heroIn 1.2s .2s var(--ease) both;
+  filter:drop-shadow(0 4px 15px rgba(0,0,0,.3));
+}
 .hero__tagline{
-  font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(232,213,163,.65);
-  letter-spacing:.1em;margin-bottom:2.5rem;
+  font-size:clamp(.95rem,2.2vw,1.15rem);color:rgba(232,213,163,.65);
+  letter-spacing:.1em;margin-bottom:clamp(1.5rem,3vh,2.5rem);
   animation:heroIn 1.2s .35s var(--ease) both;
 }
 .hero__actions{
@@ -545,6 +554,18 @@ address{font-style:normal}
   transition:transform var(--t),box-shadow var(--t);
 }
 .wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6)}
+
+/* ============================================================
+   BOUTON FLOTTANT TIKTOK
+   ============================================================ */
+.tiktok-float{
+  position:fixed;bottom:6rem;right:1.75rem;z-index:90;
+  width:58px;height:58px;border-radius:50%;background:#000000;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.45);color:var(--white);
+  transition:transform var(--t),box-shadow var(--t);
+}
+.tiktok-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(0,0,0,.6)}
 
 /* ============================================================
    BOUTON FLOTTANT INSTAGRAM
