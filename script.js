@@ -22,7 +22,7 @@ async function charger() {
 
     seo(d); nav(d); hero(d); intro(d); menu(d);
     galerie(d); avis(d); infos(d); contact(d);
-    instagramFloat(d); footer(d);
+    tiktokFloat(d); instagramFloat(d); footer(d);
     navScroll(); scrollReveal();
 
   } catch(e) {
@@ -328,6 +328,7 @@ function contact(d) {
   const r = d.restaurant || {};
   const ctaTel = document.getElementById('contact-tel');
   const ctaIg  = document.getElementById('contact-instagram');
+  const ctaTk  = document.getElementById('contact-tiktok');
   if (ctaTel) {
     if (r.telephone && r.telephone !== '+33 X XX XX XX XX') {
       ctaTel.href = 'tel:' + r.telephone.replace(/\s/g,'');
@@ -336,6 +337,17 @@ function contact(d) {
   }
   if (ctaIg && r.reseauxSociaux?.instagram) ctaIg.href = r.reseauxSociaux.instagram;
   else if (ctaIg) ctaIg.style.display='none';
+  if (ctaTk && r.reseauxSociaux?.tiktok) ctaTk.href = r.reseauxSociaux.tiktok;
+  else if (ctaTk) ctaTk.style.display='none';
+}
+
+/* ── TIKTOK FLOAT ── */
+function tiktokFloat(d) {
+  const r = d.restaurant || {};
+  const btn = document.getElementById('tiktok-float');
+  if (!btn) return;
+  if (r.reseauxSociaux?.tiktok) btn.href = r.reseauxSociaux.tiktok;
+  else btn.style.display='none';
 }
 
 /* ── INSTAGRAM FLOAT ── */
@@ -407,3 +419,4 @@ function esc(s) {
   if (s==null) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+
