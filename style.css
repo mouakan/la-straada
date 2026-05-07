@@ -567,6 +567,152 @@ address{font-style:normal}
 .avis__card-text{font-size:.88rem;line-height:1.7;color:rgba(232,213,163,.65);font-style:italic}
 
 /* ============================================================
+   CORRECTIFS MOBILE — z-index & pointer-events
+   ============================================================ */
+
+/* Force pointer-events sur tous les boutons et liens cliquables */
+.btn, a, button {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  touch-action: manipulation;
+}
+
+/* Boutons flottants : s'assurent d'être cliquables au-dessus des overlays */
+.instagram-float,
+.tiktok-float {
+  pointer-events: auto !important;
+  z-index: 95;
+  /* Agrandit la zone tactile invisible sur mobile */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Menu mobile : s'assure que pointer-events est bien coupé quand fermé */
+@media (max-width: 768px) {
+  .nav__links:not(.open) {
+    pointer-events: none !important;
+    visibility: hidden;
+  }
+  .nav__links.open {
+    pointer-events: auto !important;
+    visibility: visible;
+  }
+
+  /* Empêche le hero overlay de bloquer les taps sur les boutons hero */
+  .hero__overlay,
+  .hero__noise {
+    pointer-events: none;
+  }
+
+  /* Assure que les boutons hero passent au-dessus */
+  .hero__content {
+    position: relative;
+    z-index: 3;
+  }
+
+  /* Boutons hero pleine largeur sur petit mobile */
+  .hero__actions .btn {
+    min-height: 50px;
+    padding: .9rem 1.5rem;
+    touch-action: manipulation;
+  }
+}
+
+/* ============================================================
+   AVIS — Badge Google + Note + Bouton
+   ============================================================ */
+
+/* Header (badge + note) au-dessus des avis */
+.avis__google-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.avis__google-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem 1rem;
+  border: 1px solid rgba(245,166,35,.35);
+  border-radius: 50px;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--or);
+  background: rgba(245,166,35,.07);
+}
+
+.avis__google-note {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem 1rem;
+  border: 1px solid rgba(52,168,83,.3);
+  border-radius: 50px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: #4abe64;
+  background: rgba(74,190,100,.07);
+}
+
+.avis__google-note-stars {
+  color: var(--or);
+  font-size: .85rem;
+  letter-spacing: .05em;
+}
+
+/* Footer (bouton) sous les avis */
+.avis__google-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.avis__google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .85rem 2rem;
+  border: 1.5px solid rgba(232,213,163,.2);
+  border-radius: 50px;
+  font-family: var(--sans);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--creme);
+  background: transparent;
+  transition: all var(--t);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.avis__google-btn:hover,
+.avis__google-btn:focus-visible {
+  background: rgba(232,213,163,.07);
+  border-color: var(--or);
+  color: var(--or);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .avis__google-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 50px;
+  }
+  .avis__google-header {
+    flex-direction: column;
+    gap: .6rem;
+  }
+}
+
+/* ============================================================
    INFOS
    ============================================================ */
 .infos{padding:clamp(5rem,8vw,8rem) 0;background:var(--verde-light)}

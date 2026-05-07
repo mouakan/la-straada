@@ -352,31 +352,41 @@ function avis(d) {
   if (!sec) return;
   if (!d.avis?.clients?.length) { sec.hidden = true; return; }
   const clients = d.avis.clients;
-  setText('avis-titre', d.avis.titre);
+  const av = d.avis;
+  setText('avis-titre', av.titre);
 
-  // Score moyen
+  // ── Badge Google + note (au-dessus des avis) ──
+  const headerEl = document.getElementById('avis-google-header');
+  if (headerEl && (av.googleBadge || av.googleNote)) {
+    headerEl.innerHTML = `
+      ${av.googleBadge ? `<span class="avis__google-badge">${esc(av.googleBadge)}</span>` : ''}
+      ${av.googleNote  ? `<span class="avis__google-note"><span class="avis__google-note-stars" aria-hidden="true">★★★★★</span>${esc(av.googleNote)}</span>` : ''}
+    `;
+  }
+
+  // ── Score moyen calculé ──
   const moy = (clients.reduce((s, c) => s + (c.note || 0), 0) / clients.length).toFixed(1);
   const scoreEl = document.getElementById('avis-score');
   if (scoreEl) scoreEl.innerHTML = `
     <span class="avis__score-note">${moy}</span>
     <div class="avis__score-right">
       <span class="avis__score-stars" aria-hidden="true">${etoiles(Math.round(parseFloat(moy)), 5)}</span>
-      <span class="avis__score-label">${clients.length} avis Google</span>
+      <span class="avis__score-label">${clients.length} avis</span>
     </div>`;
 
-  // Cartes
+  // ── Cartes ──
   const grid = document.getElementById('avis-grid');
   if (!grid) return;
   clients.forEach((c, i) => {
     const card = document.createElement('article');
     card.className = 'avis__card';
     card.style.animationDelay = (i * 80) + 'ms';
-    const av = c.photo
+    const avatarHtml = c.photo
       ? `<img class="avis__card-avatar" src="${esc(c.photo)}" alt="Photo de ${esc(c.nom)}" loading="lazy" width="44" height="44"/>`
       : `<div class="avis__card-initiale" aria-hidden="true">${esc(c.nom.charAt(0).toUpperCase())}</div>`;
     card.innerHTML = `
       <div class="avis__card-head">
-        ${av}
+        ${avatarHtml}
         <div class="avis__card-meta">
           <span class="avis__card-nom">${esc(c.nom)}</span>
           <span class="avis__card-date">${esc(c.date || '')}</span>
@@ -386,6 +396,17 @@ function avis(d) {
       <p class="avis__card-text">${esc(c.commentaire)}</p>`;
     grid.appendChild(card);
   });
+
+  // ── Bouton "Voir tous les avis Google" (en dessous) ──
+  const footerEl = document.getElementById('avis-google-footer');
+  if (footerEl && av.googleLien) {
+    footerEl.innerHTML = `
+      <a class="avis__google-btn" href="${esc(av.googleLien)}" target="_blank" rel="noopener noreferrer" aria-label="Voir tous nos avis sur Google">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Voir tous les avis Google
+      </a>
+    `;
+  }
 }
 
 function etoiles(n, max) {

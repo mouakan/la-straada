@@ -141,16 +141,19 @@
   },
 
   "avis": {
-    "titre": "Ce que disent nos clients",
-    "clients": [
-      { "nom": "Camille D.",  "note": 5, "commentaire": "Le Panuozzo Truffe Royal est une tuerie absolue. La stracciatella à la truffe, c'est un niveau au-dessus. Je reviens chaque semaine !", "photo": "", "date": "Avril 2025" },
-      { "nom": "Mehdi R.",    "note": 5, "commentaire": "Meilleur rapport qualité-prix de Clichy. L'escalope Gorgonzola avec les pâtes c'est une merveille. Service rapide et personnel adorable.", "photo": "", "date": "Mars 2025" },
-      { "nom": "Sophie L.",   "note": 5, "commentaire": "Adresse découverte par hasard et on ne la lâche plus. Le tiramisu maison est sublime. Cadre moderne et ambiance sympa.", "photo": "", "date": "Février 2025" },
-      { "nom": "Antoine M.",  "note": 4, "commentaire": "Très bonne cuisine franco-italienne originale. Les panuozzo sont généreux et savoureux. Un peu d'attente le midi mais ça vaut le coup.", "photo": "", "date": "Janvier 2025" },
-      { "nom": "Laura B.",    "note": 5, "commentaire": "La burrata al tartufo en entrée et l'escalope pesto verde… Un régal du début à la fin. Le concept fusion est vraiment bien exécuté.", "photo": "", "date": "Mars 2025" },
-      { "nom": "Kevin T.",    "note": 5, "commentaire": "Endroit top pour manger à Clichy. Les pâtes carbonara sont délicieuses et les portions généreuses. On recommande fortement !", "photo": "", "date": "Avril 2025" }
-    ]
-  },
+  "titre": "Ce que disent nos clients",
+  "googleBadge": "+100 avis Google",
+  "googleNote": "4,9/5",
+  "googleLien": "https://www.google.com/search?num=10&cs=0&hl=fr-FR&sca_esv=0f90797abe8f65c1&output=search&tbm=lcl&kgmid=/g/11yvqj_957&q=La+Straada&shem=rimspwouoe&shndl=30&source=sh/x/loc/uni/m1/1&kgs=4964225ce16803d7&utm_source=rimspwouoe,sh/x/loc/uni/m1/1#lkt=LocalPoiReviews&rlfi=hd:;si:17920460732843266742,l,ChFMYSBTdHJhYWRhIENsaWNoeZIBCnJlc3RhdXJhbnQ;mv:[[48.90092617731903,2.30406008579764],[48.900566222680965,2.3035125142023603]]",
+  "clients": [
+    { "nom": "Laura S.",  "note": 5, "commentaire": "très bon et super accueil ! je recommande x10000", "photo": "", "date": "Avril 2025" },
+    { "nom": "Mehdi R.",    "note": 5, "commentaire": "Meilleur rapport qualité-prix de Clichy. L'escalope Gorgonzola avec les pâtes c'est une merveille. Service rapide et personnel adorable.", "photo": "", "date": "Mars 2025" },
+    { "nom": "Sophie L.",   "note": 5, "commentaire": "Adresse découverte par hasard et on ne la lâche plus. Le tiramisu maison est sublime. Cadre moderne et ambiance sympa.", "photo": "", "date": "Février 2025" },
+    { "nom": "Antoine M.",  "note": 4, "commentaire": "Très bonne cuisine franco-italienne originale. Les panuozzo sont généreux et savoureux. Un peu d'attente le midi mais ça vaut le coup.", "photo": "", "date": "Janvier 2025" },
+    { "nom": "Laura B.",    "note": 5, "commentaire": "La burrata al tartufo en entrée et l'escalope pesto verde… Un régal du début à la fin. Le concept fusion est vraiment bien exécuté.", "photo": "", "date": "Mars 2025" },
+    { "nom": "Kevin T.",    "note": 5, "commentaire": "Endroit top pour manger à Clichy. Les pâtes carbonara sont délicieuses et les portions généreuses. On recommande fortement !", "photo": "", "date": "Avril 2025" }
+  ]
+},
 
   "seo": {
     "titre": "la Straada Clichy — Fusion Franco-Italienne | Panuozzo · Escalopes · Pasta",
