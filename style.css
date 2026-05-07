@@ -39,10 +39,9 @@ address{font-style:normal}
 
 /* Lock scroll for iOS menu */
 body.menu-open {
-  overflow: hidden !important;
-  position: fixed;
-  width: 100%;
-  height: 100%;
+    overflow: hidden !important;
+    /* On retire position: fixed pour corriger le bug des liens */
+    height: 100vh; 
 }
 
 .sr-only{

@@ -57,16 +57,12 @@ function nav(d) {
   const overlay = document.getElementById('nav-overlay');
 
   function ouvrirMenu() {
-    // Calcul du scrollbar width pour éviter le saut visuel (Layout Shift)
     const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.paddingRight = `${scrollBarWidth}px`;
-    
     links.classList.add('open');
     overlay.classList.add('open');
     burger.classList.add('open');
     burger.setAttribute('aria-expanded', 'true');
-    
-    // Verrouillage iOS robuste
     document.body.classList.add('menu-open'); 
     document.body.style.overflow = 'hidden';
   }
@@ -76,7 +72,6 @@ function nav(d) {
     overlay.classList.remove('open');
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
-    
     document.body.classList.remove('menu-open');
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
@@ -91,9 +86,39 @@ function nav(d) {
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && links.classList.contains('open')) fermerMenu();
     });
-    links.querySelectorAll('a').forEach(a => a.addEventListener('click', fermerMenu));
+
+    // --- CORRECTION ICI : Gestion fluide des clics sur les liens ---
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const targetId = a.getAttribute('href');
+        
+        // On ne gère que les liens internes (commençant par #)
+        if (targetId && targetId.startsWith('#')) {
+          e.preventDefault(); // On empêche le saut brutal
+          
+          fermerMenu(); // On ferme le menu d'abord
+          
+          // On attend que le menu disparaisse pour lancer le scroll
+          setTimeout(() => {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              // Calcul de la position avec décalage pour la navbar
+              const offset = document.getElementById('navbar').offsetHeight;
+              const elementPosition = targetElement.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            }
+          }, 10); 
+        }
+      });
+    });
   }
 }
+
 
 /* ── HERO (Optimisation Vidéo & Performance) ── */
 function hero(d) {
