@@ -2,24 +2,26 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, initial-scale=1.0, maximum-scale=5.0" />
   <title id="page-title">la Straada Clichy</title>
   <meta name="description" id="meta-description" content="" />
   <meta name="theme-color" content="#1a3d2e" />
+  <!-- Apple Specific -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
   <link rel="icon" id="favicon" type="image/jpeg" href="Logo et favicon.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:title" id="og-title" content="" />
   <meta property="og:description" id="og-desc" content="" />
   <meta property="og:image" id="og-image" content="" />
 
-  <!-- Préchargement police critique -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
 
-  <!-- JSON-LD Schema.org Restaurant — SEO Local -->
   <script type="application/ld+json" id="schema-restaurant">
   {
     "@context": "https://schema.org",
@@ -54,11 +56,8 @@
   }
   </script>
 </head>
-<body>
+<body class="no-scroll-pending">
 
-  <!-- ============================================================
-       NAVBAR
-       ============================================================ -->
   <nav class="nav" id="navbar" role="navigation" aria-label="Navigation principale">
     <div class="nav__inner">
       <a href="#accueil" class="nav__brand" id="nav-brand" aria-label="La Straada — accueil">
@@ -74,26 +73,21 @@
           <li><a href="#contact" class="nav__link nav__link--cta">Nous contacter</a></li>
         </ul>
         <button class="nav__burger" id="nav-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- Menu mobile overlay (fond cliquable pour fermer) -->
   <div class="nav__overlay" id="nav-overlay" aria-hidden="true"></div>
 
-  <!-- ============================================================
-       HERO — Vidéo ou image depuis data.json
-       ============================================================ -->
   <section class="hero" id="accueil" aria-label="Accueil">
     <div class="hero__media" id="hero-media" aria-hidden="true"></div>
     <div class="hero__overlay" aria-hidden="true"></div>
     <div class="hero__noise" aria-hidden="true"></div>
     <div class="hero__content">
       <div class="hero__badge" id="hero-badge" aria-label="Concept">Fusion Franco-Italienne</div>
-      <!-- H1 visuel via image + H1 accessible masqué -->
       <h1 class="sr-only" id="hero-h1">La Straada — Restaurant fusion franco-italien à Clichy</h1>
       <img src="LaStraada.png" alt="La Straada" class="hero__logo" id="hero-logo" width="400" height="160" fetchpriority="high" />
       <p class="hero__tagline" id="hero-tagline">Panuozzo · Escalopes · Pasta</p>
@@ -118,9 +112,6 @@
     </a>
   </section>
 
-  <!-- ============================================================
-       BANDEAU CONCEPT
-       ============================================================ -->
   <div class="bandeau" aria-hidden="true">
     <div class="bandeau__track" id="bandeau-track">
       <span>Panuozzo</span><span class="sep">✦</span>
@@ -138,9 +129,6 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       INTRO
-       ============================================================ -->
   <section class="intro reveal" id="intro" aria-labelledby="intro-heading">
     <div class="container">
       <div class="intro__inner">
@@ -160,9 +148,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       MENU
-       ============================================================ -->
   <section class="menu-section reveal" id="menu" aria-labelledby="menu-heading">
     <div class="container">
       <div class="section-header">
@@ -175,9 +160,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       GALERIE
-       ============================================================ -->
   <section class="galerie reveal" id="galerie" aria-labelledby="galerie-heading">
     <div class="container">
       <div class="section-header">
@@ -188,7 +170,6 @@
     <div class="galerie__grid" id="galerie-grid" role="list"></div>
   </section>
 
-  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visionneuse de photos">
     <button class="lightbox__close" id="lightbox-close" aria-label="Fermer la visionneuse">✕</button>
     <button class="lightbox__prev"  id="lightbox-prev"  aria-label="Photo précédente">‹</button>
@@ -196,25 +177,18 @@
     <div class="lightbox__wrap"><img id="lightbox-img" src="" alt="Photo du restaurant La Straada" /></div>
   </div>
 
-  <!-- ============================================================
-     AVIS
-     ============================================================ -->
-<section class="avis reveal" id="avis" aria-labelledby="avis-heading">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">Témoignages</span>
-      <h2 class="section-title" id="avis-titre">Ce que disent nos clients</h2>
+  <section class="avis reveal" id="avis" aria-labelledby="avis-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Témoignages</span>
+        <h2 class="section-title" id="avis-titre">Ce que disent nos clients</h2>
+      </div>
+      <div class="avis__google-header" id="avis-google-header" aria-label="Avis Google"></div>
+      <div class="avis__grid" id="avis-grid"></div>
+      <div class="avis__google-footer" id="avis-google-footer"></div>
     </div>
-    <div class="avis__google-header" id="avis-google-header" aria-label="Avis Google"></div>
-    <div class="avis__score" id="avis-score" aria-label="Note moyenne"></div>
-    <div class="avis__grid" id="avis-grid"></div>
-    <div class="avis__google-footer" id="avis-google-footer"></div>
-  </div>
-</section>
+  </section>
 
-  <!-- ============================================================
-       INFOS — Horaires + Adresse + Maps
-       ============================================================ -->
   <section class="infos reveal" id="infos" aria-labelledby="infos-heading">
     <div class="container">
       <div class="section-header">
@@ -254,9 +228,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       CONTACT — CTA direct (pas de formulaire)
-       ============================================================ -->
   <section class="contact reveal" id="contact" aria-labelledby="contact-heading">
     <div class="container">
       <div class="contact__inner">
@@ -287,19 +258,14 @@
     </div>
   </section>
 
-  <!-- Bouton TikTok flottant -->
   <a class="tiktok-float" id="tiktok-float" href="#" target="_blank" rel="noopener noreferrer" aria-label="Suivez-nous sur TikTok">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.08 1.61 2.88 2.88 0 0 1 4.07-4.49v-3.45a6.47 6.47 0 0 0-5.79 10.221 6.478 6.478 0 0 0 10.86-5.06v-5.54c1.91 1.38 4.18 2.16 6.63 2.36v-3.45a4.86 4.86 0 0 1-.9-.08z"/></svg>
   </a>
 
-  <!-- Bouton Instagram flottant -->
   <a class="instagram-float" id="instagram-float" href="#" target="_blank" rel="noopener noreferrer" aria-label="Suivez-nous sur Instagram">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
   </a>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__inner">

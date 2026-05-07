@@ -1,10 +1,3 @@
-/**
- * ============================================================
- * LA STRAADA — script.js
- * Lit data.json → injecte tout le contenu du site
- * ⚠️ Ne pas modifier ce fichier. Tout est dans data.json.
- * ============================================================
- */
 'use strict';
 
 document.addEventListener('DOMContentLoaded', charger);
@@ -15,11 +8,15 @@ async function charger() {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const d = await res.json();
 
+    // Suppression de la classe de blocage initiale pour éviter le flash
+    document.body.classList.remove('no-scroll-pending');
+
     // Couleurs dynamiques depuis data.json > seo
     if (d.seo?.couleurPrimaire)  document.documentElement.style.setProperty('--verde', d.seo.couleurPrimaire);
     if (d.seo?.couleurAccent)    document.documentElement.style.setProperty('--creme', d.seo.couleurAccent);
     if (d.seo?.couleurAccentVif) document.documentElement.style.setProperty('--or',    d.seo.couleurAccentVif);
 
+    // Initialisation des modules
     seo(d); nav(d); hero(d); intro(d); menu(d);
     galerie(d); avis(d); infos(d); contact(d);
     tiktokFloat(d); instagramFloat(d); footer(d);
@@ -42,34 +39,35 @@ function seo(d) {
   if (s.description) { setAttr('meta-description', 'content', s.description); setAttr('og-desc', 'content', s.description); }
   const ogImg = d.galerie?.photos?.[0] || d.hero?.image || '';
   if (ogImg) setAttr('og-image', 'content', ogImg);
-  // Favicon dynamique
   const fav = document.getElementById('favicon');
   if (fav && d.restaurant?.logo) fav.href = d.restaurant.logo;
-  // Mettre à jour H1 accessible
   const h1 = document.getElementById('hero-h1');
   if (h1 && d.restaurant?.nomComplet) h1.textContent = d.restaurant.nomComplet + ' — Restaurant fusion franco-italien';
 }
 
-/* ── NAVIGATION ── */
+/* ── NAVIGATION (Optimisée UX Mobile & iOS) ── */
 function nav(d) {
   const r = d.restaurant || {};
-  // Logo image
   const logoImg = document.getElementById('nav-logo-img');
   if (logoImg && r.logo) { logoImg.src = r.logo; logoImg.alt = r.nom || 'Logo'; }
-  // Nom texte
   setText('nav-logo-text', r.nom);
 
-  // Burger + overlay
   const burger  = document.getElementById('nav-burger');
   const links   = document.getElementById('nav-links');
   const overlay = document.getElementById('nav-overlay');
 
   function ouvrirMenu() {
+    // Calcul du scrollbar width pour éviter le saut visuel (Layout Shift)
+    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = `${scrollBarWidth}px`;
+    
     links.classList.add('open');
     overlay.classList.add('open');
     burger.classList.add('open');
     burger.setAttribute('aria-expanded', 'true');
-    burger.setAttribute('aria-label', 'Fermer le menu');
+    
+    // Verrouillage iOS robuste
+    document.body.classList.add('menu-open'); 
     document.body.style.overflow = 'hidden';
   }
 
@@ -78,8 +76,10 @@ function nav(d) {
     overlay.classList.remove('open');
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
-    burger.setAttribute('aria-label', 'Ouvrir le menu');
+    
+    document.body.classList.remove('menu-open');
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
   }
 
   if (burger && links) {
@@ -87,91 +87,40 @@ function nav(d) {
       const estOuvert = links.classList.contains('open');
       estOuvert ? fermerMenu() : ouvrirMenu();
     });
-
-    // Fermer au clic sur overlay
     if (overlay) overlay.addEventListener('click', fermerMenu);
-
-    // Fermer via Escape
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && links.classList.contains('open')) fermerMenu();
     });
-
-    // Fermer au clic sur un lien
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', fermerMenu));
   }
 }
 
-/* ── HERO ── */
+/* ── HERO (Optimisation Vidéo & Performance) ── */
 function hero(d) {
   const h   = d.hero || {};
   const med = document.getElementById('hero-media');
 
   if (med) {
     if (h.type === 'video' && h.video) {
-      // Détection support vidéo
-      const canPlay = document.createElement('video').canPlayType('video/mp4');
+      const v = document.createElement('video');
+      v.setAttribute('autoplay', '');
+      v.setAttribute('muted', '');
+      v.setAttribute('loop', '');
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+      v.muted = true;
+      if (h.videoPoster) v.setAttribute('poster', h.videoPoster);
 
-      if (canPlay !== '') {
-        const v = document.createElement('video');
+      const src = document.createElement('source');
+      src.src  = h.video;
+      src.type = 'video/mp4';
+      v.appendChild(src);
+      med.appendChild(v);
 
-        // Attributs essentiels pour autoplay mobile
-        v.setAttribute('autoplay', '');
-        v.setAttribute('muted', '');           // attribut HTML (pas seulement propriété JS)
-        v.setAttribute('loop', '');
-        v.setAttribute('playsinline', '');     // iOS Safari
-        v.setAttribute('webkit-playsinline', ''); // iOS vieux
-        v.setAttribute('x5-playsinline', ''); // WeChat/Android
-        v.setAttribute('x5-video-player-type', 'h5');
-        v.setAttribute('preload', 'none');     // économise la bande passante mobile
-        v.muted = true;                        // propriété JS en plus (double sécurité)
-
-        if (h.videoPoster) {
-          v.setAttribute('poster', h.videoPoster);
-        }
-
-        // Source
-        const src = document.createElement('source');
-        src.src  = h.video;
-        src.type = 'video/mp4';
-        v.appendChild(src);
-
-        med.appendChild(v);
-
-        // Tentative de lecture avec gestion d'erreur robuste
-        const tentativeLecture = () => {
-          const p = v.play();
-          if (p instanceof Promise) {
-            p.catch(() => {
-              // Autoplay bloqué → fallback image
-              afficherFallbackHero(med, h);
-            });
-          }
-        };
-
-        // Sur iOS, on attend que les métadonnées soient prêtes
-        if (v.readyState >= 1) {
-          tentativeLecture();
-        } else {
-          v.addEventListener('loadedmetadata', tentativeLecture, { once: true });
-          // Timeout de sécurité : si la vidéo ne se charge pas en 4s → fallback
-          setTimeout(() => {
-            if (v.readyState < 1) afficherFallbackHero(med, h);
-          }, 4000);
-        }
-
-        // Gestion erreur réseau
-        v.addEventListener('error', () => afficherFallbackHero(med, h), { once: true });
-
-      } else {
-        // Navigateur ne supporte pas mp4 → image directement
-        afficherFallbackHero(med, h);
-      }
-
+      v.play().catch(() => afficherFallbackHero(med, h));
     } else {
-      // Mode image
       const img = document.createElement('img');
-      img.src     = h.image || '';
-      img.alt     = '';
+      img.src = h.image || '';
       img.loading = 'eager';
       img.fetchPriority = 'high';
       med.appendChild(img);
@@ -179,11 +128,9 @@ function hero(d) {
   }
 
   const r = d.restaurant || {};
-  // Le H1 textuel est géré via sr-only dans le HTML
   setText('hero-tagline', r.sousTagline || r.tagline);
   setText('hero-badge',   r.tagline);
 
-  // Bouton appel hero
   const callBtn = document.getElementById('hero-call-btn');
   if (callBtn) {
     if (r.telephone && !r.telephone.includes('X')) {
@@ -207,7 +154,6 @@ function afficherFallbackHero(med, h) {
   med.innerHTML = '';
   const img = document.createElement('img');
   img.src = src;
-  img.alt = '';
   img.loading = 'eager';
   img.fetchPriority = 'high';
   med.appendChild(img);
@@ -223,7 +169,7 @@ function intro(d) {
   if (ubEl && dl?.ubereats)  ubEl.href = dl.ubereats;  else if (ubEl) ubEl.style.display = 'none';
 }
 
-/* ── MENU ── */
+/* ── MENU (Performance DOM Fragment) ── */
 function menu(d) {
   const cats = d.menu?.categories || [];
   const tabs = document.getElementById('menu-tabs');
@@ -251,6 +197,7 @@ function menu(d) {
 
 function renderPlats(plats, grid) {
   grid.innerHTML = '';
+  const fragment = document.createDocumentFragment();
   plats.forEach((p, i) => {
     const card = document.createElement('article');
     card.className = 'menu__card';
@@ -265,27 +212,18 @@ function renderPlats(plats, grid) {
       </div>
       ${tagHtml}
       <p class="menu__card-desc">${esc(p.description)}</p>`;
-    grid.appendChild(card);
+    fragment.appendChild(card);
   });
+  grid.appendChild(fragment);
 }
 
-/* ── GALERIE ── */
+/* ── GALERIE (UX & Accessibilité) ── */
 function galerie(d) {
   const photos = d.galerie?.photos || [];
   const grid   = document.getElementById('galerie-grid');
   if (!grid || !photos.length) return;
 
-  // Extensions par défaut si absentes
-  const EXTS = ['.jpg', '.jpeg', '.png', '.webp'];
-  const normaliser = (url) => {
-    if (!url) return '';
-    const u = String(url);
-    // Si l'URL contient déjà un point dans la dernière partie → déjà une extension
-    const dernierSegment = u.split('/').pop();
-    if (dernierSegment.includes('.')) return u;
-    // Sinon on ajoute .jpg par défaut
-    return u + '.jpg';
-  };
+  const normaliser = (url) => (url && !url.includes('.')) ? url + '.jpg' : url;
 
   photos.forEach((url, i) => {
     const urlNorm = normaliser(url);
@@ -299,11 +237,6 @@ function galerie(d) {
     img.alt     = 'Photo du restaurant La Straada ' + (i + 1);
     img.loading = 'lazy';
     img.decoding = 'async';
-    // Fallback si image manquante : on essaie d'autres extensions
-    img.addEventListener('error', () => {
-      const ext = EXTS.find(e => !urlNorm.endsWith(e) && e !== '.jpg');
-      if (ext) img.src = url + ext;
-    }, { once: true });
 
     item.appendChild(img);
     item.addEventListener('click',  () => ouvrirLb(photos.map(normaliser), i));
@@ -312,7 +245,6 @@ function galerie(d) {
   });
 }
 
-/* Lightbox */
 let lbP = [], lbI = 0;
 function ouvrirLb(p, i) {
   lbP = p; lbI = i;
@@ -321,11 +253,13 @@ function ouvrirLb(p, i) {
   if (!lb || !img) return;
   img.src = p[i];
   lb.classList.add('open');
+  document.body.classList.add('menu-open');
   document.body.style.overflow = 'hidden';
-  document.getElementById('lightbox-close')?.focus();
+  setTimeout(() => document.getElementById('lightbox-close')?.focus(), 100);
 }
 function fermerLb() {
   document.getElementById('lightbox')?.classList.remove('open');
+  document.body.classList.remove('menu-open');
   document.body.style.overflow = '';
 }
 function navLb(dir) {
@@ -334,7 +268,6 @@ function navLb(dir) {
   if (img) img.src = lbP[lbI];
 }
 
-// Attachement des événements lightbox (au chargement, avant le fetch)
 document.getElementById('lightbox-close')?.addEventListener('click', fermerLb);
 document.getElementById('lightbox-prev')?.addEventListener('click',  () => navLb(-1));
 document.getElementById('lightbox-next')?.addEventListener('click',  () => navLb(1));
@@ -346,7 +279,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') navLb(1);
 });
 
-/* ── AVIS ── */
+/* ── AVIS (Google Integration) ── */
 function avis(d) {
   const sec = document.getElementById('avis');
   if (!sec) return;
@@ -355,7 +288,6 @@ function avis(d) {
   const av = d.avis;
   setText('avis-titre', av.titre);
 
-  // ── Badge Google + note (au-dessus des avis) ──
   const headerEl = document.getElementById('avis-google-header');
   if (headerEl && (av.googleBadge || av.googleNote)) {
     headerEl.innerHTML = `
@@ -364,17 +296,6 @@ function avis(d) {
     `;
   }
 
-  // ── Score moyen calculé ──
-  const moy = (clients.reduce((s, c) => s + (c.note || 0), 0) / clients.length).toFixed(1);
-  const scoreEl = document.getElementById('avis-score');
-  if (scoreEl) scoreEl.innerHTML = `
-    <span class="avis__score-note">${moy}</span>
-    <div class="avis__score-right">
-      <span class="avis__score-stars" aria-hidden="true">${etoiles(Math.round(parseFloat(moy)), 5)}</span>
-      <span class="avis__score-label">${clients.length} avis</span>
-    </div>`;
-
-  // ── Cartes ──
   const grid = document.getElementById('avis-grid');
   if (!grid) return;
   clients.forEach((c, i) => {
@@ -397,7 +318,6 @@ function avis(d) {
     grid.appendChild(card);
   });
 
-  // ── Bouton "Voir tous les avis Google" (en dessous) ──
   const footerEl = document.getElementById('avis-google-footer');
   if (footerEl && av.googleLien) {
     footerEl.innerHTML = `
@@ -415,11 +335,9 @@ function etoiles(n, max) {
   return h;
 }
 
-/* ── INFOS ── */
+/* ── INFOS (Dynamic Hours & Maps) ── */
 function infos(d) {
   const r = d.restaurant || {};
-
-  // Horaires
   const listeH = document.getElementById('horaires-list');
   if (listeH && d.horaires) {
     const joursNoms = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
@@ -442,22 +360,18 @@ function infos(d) {
     });
   }
 
-  // Adresse
   const adr   = r.adresse;
   const adrEl = document.getElementById('adresse-block');
   if (adrEl && adr) adrEl.innerHTML = `${esc(adr.rue)}<br>${esc(adr.codePostal)} ${esc(adr.ville)}<br>${esc(adr.pays)}`;
 
-  // Maps lien
   const mapLk = document.getElementById('map-link');
   if (mapLk) mapLk.href = r.maps?.lienExterne || '#';
 
-  // Maps iframe — sécurité : on accepte uniquement les iframes Google Maps
   const mapIf = document.getElementById('map-iframe-wrap');
   if (mapIf && r.maps?.iframe) {
     const iframeHtml = String(r.maps.iframe).trim();
     if (iframeHtml.startsWith('<iframe') && iframeHtml.includes('google.com/maps')) {
       mapIf.innerHTML = iframeHtml;
-      // Assurer l'attribut title pour l'accessibilité
       const iframeEl = mapIf.querySelector('iframe');
       if (iframeEl && !iframeEl.getAttribute('title')) {
         iframeEl.setAttribute('title', 'Localisation de La Straada sur Google Maps');
@@ -465,7 +379,6 @@ function infos(d) {
     }
   }
 
-  // Tel
   const telLk = document.getElementById('tel-link-infos');
   if (telLk && r.telephone && !r.telephone.includes('X')) {
     telLk.textContent = r.telephone;
@@ -474,7 +387,6 @@ function infos(d) {
     telLk.style.display = 'none';
   }
 
-  // Réseaux
   const socEl = document.getElementById('social-links');
   if (socEl && r.reseauxSociaux) {
     Object.entries(r.reseauxSociaux).forEach(([nom, url]) => {
@@ -488,7 +400,6 @@ function infos(d) {
     });
   }
 
-  // Apps livraison
   const dl  = r.livraison;
   const dlI = document.getElementById('infos-deliveroo');
   const ubI = document.getElementById('infos-ubereats');
@@ -518,7 +429,7 @@ function contact(d) {
   else if (ctaTk) ctaTk.style.display = 'none';
 }
 
-/* ── TIKTOK FLOAT ── */
+/* ── TIKTOK/INSTA FLOAT ── */
 function tiktokFloat(d) {
   const btn = document.getElementById('tiktok-float');
   if (!btn) return;
@@ -527,7 +438,6 @@ function tiktokFloat(d) {
   else btn.style.display = 'none';
 }
 
-/* ── INSTAGRAM FLOAT ── */
 function instagramFloat(d) {
   const btn = document.getElementById('instagram-float');
   if (!btn) return;
@@ -573,7 +483,6 @@ function navScroll() {
 function scrollReveal() {
   const els = document.querySelectorAll('.reveal');
   if (!els.length) return;
-  // rootMargin positif sur mobile pour déclencher plus tôt
   const obs = new IntersectionObserver(
     entries => entries.forEach(e => {
       if (e.isIntersecting) {
@@ -581,7 +490,7 @@ function scrollReveal() {
         obs.unobserve(e.target);
       }
     }),
-    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
   );
   els.forEach(el => obs.observe(el));
 }
@@ -602,10 +511,5 @@ function setAttr(id, attr, val) {
 }
 function esc(s) {
   if (s == null) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
