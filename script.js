@@ -82,37 +82,37 @@ function nav(d) {
       if (e.key === 'Escape' && links.classList.contains('open')) fermerMenu();
     });
 
-    // --- NAVIGATION MOBILE — FIX COMPLET ───────────────────
+    // --- NAVIGATION MOBILE — FIX DÉFINITIF ─────────────────
+    // Calcule la position ABSOLUE d'un élément dans le document
+    // (offsetTop est relatif au parent, on remonte la chaîne)
+    function getAbsoluteTop(el) {
+      let top = 0;
+      while (el) { top += el.offsetTop; el = el.offsetParent; }
+      return top;
+    }
+
     links.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', (e) => {
         const targetId = a.getAttribute('href');
-        
-        if (targetId && targetId.startsWith('#')) {
-          e.preventDefault();
-          
-          const wasOpen = links.classList.contains('open');
-          
-          // 1. Fermer le menu immédiatement
-          fermerMenu();
-          
-          // 2. Attendre la fin de la transition CSS du menu (.35s = 350ms)
-          //    AVANT de scroller — évite le conflit animation/scroll
-          const delay = wasOpen ? 360 : 0;
-          
-          setTimeout(() => {
-            const targetElement = document.querySelector(targetId);
-            if (!targetElement) return;
-            
-            // 3. Calcul précis : position réelle de l'élément - hauteur navbar fixe
-            const navbar = document.getElementById('navbar');
-            const navH = navbar ? navbar.getBoundingClientRect().height : 72;
-            
-            const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
-            const scrollTo = Math.max(0, elementTop - navH);
-            
-            window.scrollTo({ top: scrollTo, behavior: 'smooth' });
-          }, delay);
-        }
+        if (!targetId || !targetId.startsWith('#')) return;
+
+        const targetElement = document.querySelector(targetId);
+        if (!targetElement) return;
+
+        e.preventDefault();
+
+        // 1. Lire la position absolue AVANT de fermer le menu
+        const navbar = document.getElementById('navbar');
+        const navH   = navbar ? navbar.offsetHeight : 72;
+        const destY  = Math.max(0, getAbsoluteTop(targetElement) - navH);
+
+        // 2. Fermer le menu
+        fermerMenu();
+
+        // 3. Scroller après la transition (350ms) avec la position pré-calculée
+        setTimeout(() => {
+          window.scrollTo({ top: destY, behavior: 'smooth' });
+        }, 370);
       });
     });
   }
