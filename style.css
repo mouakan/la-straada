@@ -151,12 +151,13 @@ address{font-style:normal}
 
 /* ── Overlay ── */
 .nav__overlay{
-  display:none;position:fixed;inset:0;z-index:1050;
-  background:rgba(0,0,0,.45);opacity:0;
-  transition:opacity .3s ease;
-  cursor:pointer;pointer-events:none;
+    display:none;position:fixed;inset:0;z-index:999;   /* ← fixé */
+    background:rgba(0,0,0,.45);opacity:0;
+    transition:opacity .3s ease;
+    cursor:pointer;pointer-events:none;
 }
 .nav__overlay.open{opacity:1;pointer-events:auto;}
+
 
 /* ── Menu mobile ── */
 @media(max-width:768px){
